@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const addToCart = (bookId, quantity, token) => {
   return axios.post(
-    "http://localhost:8080/api/v1/cart/add-cart",
+    "http://localhost:8080/cart/api/add-cart",
     { bookId, quantity },
     {
       headers: {
@@ -13,7 +13,7 @@ export const addToCart = (bookId, quantity, token) => {
 };
 
 export const showMyCart = (token) => {
-  return axios.get("http://localhost:8080/api/v1/cart/my-cart", {
+  return axios.get("http://localhost:8080/cart/api/my-cart", {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -21,8 +21,10 @@ export const showMyCart = (token) => {
 };
 
 export const removeItemFormCart = (cartId, token) => {
-  return axios.delete(
-    `http://localhost:8080/api/v1/cart/remove-item/${cartId}`,
+  console.log(token)
+  return axios.post(
+    `http://localhost:8080/cart/api/delete-item?cartId=${cartId}`,
+    {},
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -31,17 +33,9 @@ export const removeItemFormCart = (cartId, token) => {
   );
 };
 
-export const clearCartItem = (token) => {
-  return axios.delete("http://localhost:8080/api/v1/cart/clear", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-};
-
 export const editCartItem = (cartId, token, quantity) => {
-  return axios.put(
-    `http://localhost:8080/api/v1/cart/update-quantity/${cartId}?quantity=${quantity}`,
+  return axios.post(
+    `http://localhost:8080/cart/api/update-quantity?quantity=${quantity}&cartId=${cartId}`,
     null,
     {
       headers: {

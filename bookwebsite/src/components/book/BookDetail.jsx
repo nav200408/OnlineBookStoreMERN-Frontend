@@ -21,7 +21,8 @@ function BookDetail() {
     const fetchBookDetails = async () => {
       try {
         const response = await getBookDetails(bookId);
-        setBook(response.data.data);
+        setBook(response.data);
+        console.log(response.data)
         setLoading(false);
       } catch (err) {
         setError("Failed to fetch book details: " + err.message);
@@ -46,7 +47,8 @@ function BookDetail() {
 
     try {
       const token = getToken();
-      const response = await addToCart(book.bookId, quantity, token);
+      console.log(book._id)
+      const response = await addToCart(book._id, quantity, token);
       console.log("Added to cart:", response.data);
       alert("Book added to cart successfully!");
     } catch (err) {
@@ -84,7 +86,7 @@ function BookDetail() {
       <div className="row g-4">
         <div className="col-12 col-md-4">
           <img
-            src={`http://localhost:8080/api/v1/image/show?imageName=${book?.bookImage}`}
+            src={`http://localhost:8080/stream/api/image?filename=${book?.bookImage}`}
             alt={book?.bookTitle}
             className="img-fluid rounded shadow book-image1"
           />
@@ -158,10 +160,10 @@ function BookDetail() {
       </div>
       <Popup isOpen={showPaymentPopup} onClose={closePaymentPopup}>
         <PaymentForm
-          onSuccess={closePaymentPopup} // Close popup on successful payment
-          onCancel={closePaymentPopup} // Close popup when canceled
+          onSuccess={closePaymentPopup}
+          onCancel={closePaymentPopup} 
           bookDetails={{
-            id: parseInt(book?.bookId),
+            id: book?._id,
             title: book?.bookTitle,
             price: book?.price,
             quantity,

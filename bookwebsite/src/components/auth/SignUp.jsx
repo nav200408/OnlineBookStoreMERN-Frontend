@@ -12,11 +12,10 @@ const Signup = () => {
     fullName: "",
     phoneNumber: "",
     email: "",
-    userRole: "SELLER",
+    userRole: "USER",
   });
-
+  const [profileImage, setProfileImage] = useState(null);
   const navigate = useNavigate();
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -55,8 +54,15 @@ const Signup = () => {
     }
 
     try {
-      const { confirmPassword, ...payload } = formData;
-      const res = await postRegister(payload);
+    const dataToSend = new FormData();
+    dataToSend.append("username",formData.username);
+    dataToSend.append("password",formData.password);
+    dataToSend.append('fullName',formData.fullName);
+    dataToSend.append('phoneNumber', formData.phoneNumber);
+    dataToSend.append('email',formData.email);
+    dataToSend.append('file', profileImage);
+
+      const res = await postRegister(dataToSend);
 
       if (res.data) {
         alert("Registration successful. Please login.");
@@ -155,15 +161,11 @@ const Signup = () => {
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label>User Role</Form.Label>
-            <Form.Select
-              name="userRole"
-              value={formData.userRole}
-              onChange={handleChange}
-            >
-              <option value="SELLER">Seller</option>
-              <option value="USER">User</option>
-            </Form.Select>
+            <Form.Label>Upload Image</Form.Label>
+            <Form.Control
+            type="file"
+            onChange={(e)=>{setProfileImage(e.target.files[0])}}
+            />
           </Form.Group>
 
           <Button

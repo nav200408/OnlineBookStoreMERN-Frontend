@@ -10,9 +10,11 @@ export const BestDiscount = () => {
   const navigate = useNavigate()
   useEffect(() => {
     bookByDiscount(1, 5).then((res) => {
-      setProducts(res.data.bookList);
+      setProducts(res.data.data.books);
+      console.log(res);
     });
   }, []);
+  
 
   return (
     <div className="container py-5 best-discount-section">
@@ -30,7 +32,7 @@ export const BestDiscount = () => {
               </div>
               <div className="card-img-top p-3 product-image-container d-flex align-items-center justify-content-center">
                 <img 
-                  src={`http://localhost:8080/api/v1/image/show?imageName=${product.bookImage}`} 
+                  src={`http://localhost:8080/stream/api/image?filename=${product.bookImage}`} 
                   alt={product.bookTitle}
                   className="img-fluid product-image"
                 />
@@ -45,7 +47,7 @@ export const BestDiscount = () => {
                     )}
                   </div>
                   <button className="btn btn-primary w-100 btn-add-to-cart" onClick={()=>{
-                      navigate(`/book-detail/${product.bookId}`)
+                      navigate(`/book-detail/${product._id}`)
                   }}>View Detail</button>
                 </div>
               </div>

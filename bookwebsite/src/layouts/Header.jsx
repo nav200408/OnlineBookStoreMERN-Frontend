@@ -403,7 +403,7 @@ function Header() {
     }
 
     switch (userRole) {
-      case "ROLE_ADMIN":
+      case "alo":
         return (
           <>
             <a
@@ -429,7 +429,7 @@ function Header() {
             </button>
           </>
         );
-      case "ROLE_SELLER":
+      case "ADMIN":
         return (
           <>
             {/* <a
@@ -501,7 +501,7 @@ function Header() {
             </button>
           </>
         );
-      case "ROLE_USER":
+      case "USER":
       default:
         return (
           <>

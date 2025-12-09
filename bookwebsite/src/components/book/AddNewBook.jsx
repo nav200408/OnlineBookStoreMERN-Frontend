@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getToken } from "../../utils/auth";
-import { requestToAddNewBook } from "../../service/bookAPI";
-import { getAllCategories } from "../../service/categoryAPI";
+import { getBookDetails, requestToAddNewBook } from "../../service/bookAPI";
 
 function AddNewBook() {
   const [formData, setFormData] = useState({
@@ -16,24 +15,10 @@ function AddNewBook() {
     publishDate: "",
     categoryIds: [],
   });
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await getAllCategories();
-        const categoriesData = response.data?.data || response.data || [];
-        setCategories(categoriesData);
-      } catch (err) {
-        console.error("Error fetching categories:", err);
-        setCategories([]);
-      }
-    };
-    fetchCategories();
-  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -50,22 +35,6 @@ function AddNewBook() {
     }));
   };
 
-  const handleCategoryChange = (e) => {
-    const { value, checked } = e.target;
-    setFormData((prev) => {
-      if (checked) {
-        return {
-          ...prev,
-          categoryIds: [...prev.categoryIds, parseInt(value)],
-        };
-      } else {
-        return {
-          ...prev,
-          categoryIds: prev.categoryIds.filter((id) => id !== parseInt(value)),
-        };
-      }
-    });
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -87,20 +56,14 @@ function AddNewBook() {
       formDataToSend.append("price", formData.price);
       formDataToSend.append("description", formData.description);
       formDataToSend.append("publishDate", formData.publishDate);
-
-      formData.categoryIds.forEach((id) => {
-        formDataToSend.append("categoryIds", id);
-      });
-
+      formDataToSend.append("bookCategory", categories);
       if (formData.bookImage) {
-        formDataToSend.append("bookImage", formData.bookImage);
+        formDataToSend.append("file", formData.bookImage);
       }
 
       await requestToAddNewBook(formDataToSend, token);
 
       setSuccess("Book added successfully!");
-
-      // Reset form
       setFormData({
         bookTitle: "",
         publisher: "",
@@ -115,7 +78,7 @@ function AddNewBook() {
 
       setTimeout(() => navigate("/"), 2000);
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to add book");
+      setError(err.response?.data?.err || "Failed to add book");
     }
   };
 
@@ -302,41 +265,11 @@ function AddNewBook() {
                   <label htmlFor="categories" className="form-label">
                     Categories
                   </label>
-                  <select
-                    multiple
-                    id="categories"
-                    name="categories"
-                    value={formData.categoryIds.map(String)} // Chuyển số thành chuỗi để so khớp với value
-                    onChange={(e) => {
-                      const options = e.target.options;
-                      const selectedValues = [];
-                      for (let i = 0; i < options.length; i++) {
-                        if (options[i].selected) {
-                          selectedValues.push(parseInt(options[i].value));
-                        }
-                      }
-                      setFormData((prev) => ({
-                        ...prev,
-                        categoryIds: selectedValues,
-                      }));
-                    }}
-                    className="form-select"
-                    style={{ height: "auto" }}
-                    required
-                  >
-                    {categories.map((category) => (
-                      <option
-                        key={category.categoryId}
-                        value={category.categoryId}
-                      >
-                        {category.categoryName}
-                      </option>
-                    ))}
-                  </select>
-                  <small className="text-muted">
-                    Hold Ctrl (Windows) or Command (Mac) to select multiple
-                    categories
-                  </small>
+                  <input type="text"
+                  name="category"
+                  value={categories}
+                  onChange={(e)=>{setCategories(e.target.value)}}
+                  />
                 </div>
 
                 <div className="mb-4">

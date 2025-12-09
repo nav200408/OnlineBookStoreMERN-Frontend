@@ -6,11 +6,11 @@ export const getBooks = () => {
 };
 
 export const getBookDetails = (bookId) => {
-  return axios.get(`http://localhost:8080/api/v1/book/${bookId}`);
+  return axios.get(`http://localhost:8080/book/api/get-book-by-id?id=${bookId}`);
 };
 
 export const requestToAddNewBook = (formData, token) => {
-  return axios.post("http://localhost:8080/api/v1/add-book", formData, {
+  return axios.post("http://localhost:8080/manage-book/api/add-book", formData, {
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "multipart/form-data",
@@ -68,9 +68,11 @@ export const changeBookStatus = (token, bookId, isActive) => {
   );
 };
 
-export const deleteBook = (bookId, token) => {
-  return axios.patch(
-    `http://localhost:8080/api/v1/admin/books/${bookId}/status?isActive=false`,
+export const deleteBook = (bookId) => {
+  let token = getToken();
+  console.log(token);
+  return axios.post(
+    `http://localhost:8080/manage-book/api/delete-book?bookId=${bookId}`,null,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -82,7 +84,7 @@ export const deleteBook = (bookId, token) => {
 export const bookByReview = (pageNumber, numberOfBookEachPage) => {
   return axios
     .get(
-      `http://localhost:8080/api/v1/book/best-review?pageNumber=${pageNumber}&numberOfBookEachPage=${numberOfBookEachPage}`,
+      `http://localhost:8080/book/api/get-best-review?page=${pageNumber}&limit=${numberOfBookEachPage}`,
       {}
     )
     .catch((err) => {
@@ -93,7 +95,7 @@ export const bookByReview = (pageNumber, numberOfBookEachPage) => {
 export const bookByDiscount = (pageNumber, numberOfBookEachPage) => {
   return axios
     .get(
-      `http://localhost:8080/api/v1/book/best-discount?pageNumber=${pageNumber}&numberOfBookEachPage=${numberOfBookEachPage}`,
+      `http://localhost:8080/book/api/get-best-discount?page=${pageNumber}&limit=${numberOfBookEachPage}`,
       {}
     )
     .catch((err) => {
@@ -104,7 +106,7 @@ export const bookByDiscount = (pageNumber, numberOfBookEachPage) => {
 export const newestBooks = (pageNumber, numberOfBookEachPage) => {
   return axios
     .get(
-      `http://localhost:8080/api/v1/book/new-book?pageNumber=${pageNumber}&numberOfBookEachPage=${numberOfBookEachPage}`,
+      `http://localhost:8080/book/api/get-all-books?page=${pageNumber}&limit=${numberOfBookEachPage}`,
       {}
     )
     .catch((err) => {
@@ -113,12 +115,10 @@ export const newestBooks = (pageNumber, numberOfBookEachPage) => {
 };
 const API_URL = "http://localhost:8080/api/v1";
 
-export const filterBooksByCategories = async (categoryIds) => {
+export const filterBooksByCategories = async (category) => {
   try {
-    const response = await axios.post(
-      `${API_URL}/book/filter-by-categories`,
-      categoryIds
-    );
+    const response = await axios.get(
+      `http://localhost:8080/book/api/get-by-category?category=${category}`);
     return response.data;
   } catch (error) {
     console.error("Error filtering books by categories:", error);
@@ -182,3 +182,23 @@ export const updateBookStatus = async (bookId, isActive) => {
     }
   );
 };
+
+export const getBookAdmin = async() =>{
+  const token = getToken();
+  return await axios.get("http://localhost:8080/manage-book/api/get-all-book",{
+    headers:{
+      Authorization: `Bearer ${token}`
+    }
+  })
+}
+
+export const updateBookAdmin = async(dataForm)=>{
+  const token = getToken();
+  return await axios.post('http://localhost:8080/manage-book/api/update-book',
+  dataForm,{
+    headers:{
+      Authorization:`Bearer ${token}`,
+      "Content-Type": "multipart/form-data"
+    }
+  })
+}

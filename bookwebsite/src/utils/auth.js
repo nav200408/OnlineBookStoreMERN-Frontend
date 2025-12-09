@@ -14,7 +14,7 @@ export const getRoleFromToken = () => {
     return null;
   }
   const decoded = jwtDecode(token);
-  return decoded.roles || null;
+  return decoded.role || null;
 };
 
 export const getUser = () => {
@@ -31,7 +31,7 @@ export function getUserIdFromToken() {
 
   try {
     const decoded = jwtDecode(localStorage.getItem("token"));
-    return decoded.userId;
+    return decoded.id;
   } catch (error) {
     console.error("Error decoding token:", error);
     return null;

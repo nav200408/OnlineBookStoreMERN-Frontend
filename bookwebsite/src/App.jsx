@@ -8,11 +8,14 @@ import "./assets/styles/MyRequestBook.css";
 import "./assets/styles/MyShop.css";
 import "./assets/styles/MyOrder.css";
 import "./assets/styles/ManageOrder.css";
+import BookCategory from "./components/book/BookCategory";
+import { NewUserProfile} from "./components/profile/NewUserProfile";
+import { NewManageOrder } from "./components/order/NewManageOrder";
 
 function App() {
   return (
     <>
-      <Outlet />
+      <Outlet/>
     </>
   );
 }

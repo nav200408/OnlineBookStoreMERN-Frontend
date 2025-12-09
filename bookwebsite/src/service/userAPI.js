@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getToken } from "../utils/auth";
 
 const API_URL = "http://localhost:8080/api/v1/users";
 
@@ -15,9 +16,9 @@ const getAllUsers = async (token) => {
     throw new Error(error.response?.data?.message || "Failed to fetch users");
   }
 };
-const getUserById = async (userId, token) => {
+const getUserById = async (token) => {
   try {
-    const response = await axios.get(`${API_URL}/${userId}`, {
+    const response = await axios.get(`http://localhost:8080/user/api/get-user-by-id`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -59,14 +60,15 @@ const toggleUserStatus = async (userId, active, token) => {
   }
 };
 
-const updateUser = async (userId, formData, token) => {
+const updateUser = async (formData) => {
   try {
-    const response = await axios.put(`${API_URL}/${userId}`, formData, {
+    let token = getToken();
+    const response = await axios.post(`http://localhost:8080/user/api/update-user`, formData, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`
       },
     });
-    return response.data;
+    return response;
   } catch (error) {
     const errorMessage =
       error.response?.data?.message || "Failed to update user";

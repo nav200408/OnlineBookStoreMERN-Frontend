@@ -1,0 +1,115 @@
+/* Thiết lập cơ bản cho toàn bộ form */
+.user-profile-form {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+/* Tiêu đề form */
+.user-profile-header {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+    font-size: 1.8em;
+}
+
+/* Nhóm trường nhập liệu */
+.user-profile-field-group {
+    margin-bottom: 20px;
+}
+
+/* Nhãn (Labels) */
+.user-profile-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #555;
+    font-size: 0.95em;
+}
+
+/* Trường nhập liệu (Inputs) */
+.user-profile-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box; /* Quan trọng để padding không làm tăng chiều rộng */
+    transition: border-color 0.3s, box-shadow 0.3s;
+    font-size: 1em;
+}
+
+.user-profile-input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+    outline: none;
+}
+
+/* Trường Username được đánh dấu chỉ đọc (readonly) */
+.user-profile-input[readonly] {
+    background-color: #f7f7f7;
+    color: #777;
+    cursor: not-allowed;
+}
+
+/* Phần hình ảnh người dùng */
+.user-profile-image-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.user-profile-image-container {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-top: 10px;
+    border: 3px solid #ddd;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.user-profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Ẩn input file mặc định và tạo một cách để kích hoạt nó */
+.user-profile-image-input {
+    display: none;
+}
+
+/* Nút bấm */
+.user-profile-button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+    margin-top: 25px;
+}
+
+/* Nút Lưu */
+.user-profile-save-button {
+    background-color: #28a745;
+    color: white;
+}
+
+.user-profile-save-button:hover {
+    background-color: #218838;
+}
+
+.user-profile-save-button:active {
+    transform: translateY(1px);
+}

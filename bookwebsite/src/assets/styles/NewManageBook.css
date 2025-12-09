@@ -1,0 +1,192 @@
+/* --- CONTAINER (Horizontal Scroll) --- */
+.manage-book-table-container {
+    width: 100%;
+    overflow-x: auto;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    background: white;
+    border-radius: 8px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Applied here locally */
+    min-height: 60vh;
+}
+
+/* Scoped Table Styling: Only affects tables inside this container */
+.manage-book-table-container table {
+    width: 100%;
+    border-collapse: collapse;
+    white-space: nowrap;
+}
+
+/* --- HEADER STYLING (Light Blue Theme) --- */
+.manage-book-table-container thead {
+    background-color: #e3f2fd; /* Light Blue */
+    color: #1565c0; /* Dark Blue text */
+    border-bottom: 2px solid #3c9bea;
+}
+
+/* Scoped th and td styling */
+.manage-book-table-container th, 
+.manage-book-table-container td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+}
+
+/* Sticky Header Cells */
+.manage-book-table-container thead th {
+    background-color: #e3f2fd;
+    position: sticky;
+    top: 0;
+    z-index: 0;
+}
+
+/* Hover Effect */
+.manage-book-table-container tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* --- SPECIFIC COLUMNS (Using your specific classes) --- */
+
+/* Image */
+.manage-book-thumb {
+    width: 40px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+/* Title Font */
+.manage-book-font-bold {
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+/* Truncate Description */
+.manage-book-truncate {
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* --- BADGES & STATUS --- */
+
+.manage-book-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: bold;
+    color: white;
+}
+
+.manage-book-badge-blue { background-color: #007bff; }
+.manage-book-badge-green { background-color: #28a745; }
+
+/* Status: Active */
+.manage-book-status-active {
+    color: #155724;
+    background-color: #d4edda;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+/* Status: Deleted */
+.manage-book-status-deleted {
+    color: #721c24;
+    background-color: #f8d7da;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    text-decoration: line-through;
+}
+
+/* --- ACTION COLUMN (Sticky) --- */
+
+.manage-book-sticky-action {
+    position: sticky;
+    right: 0;
+    background-color: white; 
+    box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+/* Fix header background for sticky action to match light blue header */
+.manage-book-table-container thead .manage-book-sticky-action {
+    background-color: #e3f2fd; 
+}
+
+/* Fix hover state for sticky action */
+.manage-book-table-container tbody tr:hover .manage-book-sticky-action {
+    background-color: #f1f1f1;
+}
+
+/* --- BUTTONS --- */
+.manage-book-btn {
+    border: none;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 5px;
+    transition: 0.2s;
+    font-size: 13px;
+}
+
+.manage-book-btn-edit {
+    background-color: #ffc107;
+    color: #333;
+}
+.manage-book-btn-edit:hover { background-color: #e0a800; }
+
+.manage-book-btn-delete {
+    background-color: #dc3545;
+    color: white;
+}
+.manage-book-btn-delete:hover { background-color: #c82333; }
+
+/* --- PAGINATION STYLING --- */
+.manage-book-pagination-container {
+    display: flex;
+    justify-content: flex-end; /* Align right */
+    padding: 15px 0;
+    margin-top: 10px;
+}
+
+.manage-book-pagination {
+    display: flex;
+    list-style: none;
+    gap: 5px;
+    padding: 0;
+    margin: 0;
+}
+
+.manage-book-page-btn {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    background-color: white;
+    color: #1565c0; /* Dark Blue */
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+/* Hover Effect */
+.manage-book-page-btn:hover:not(:disabled) {
+    background-color: #e3f2fd; /* Light Blue */
+    border-color: #90caf9;
+}
+
+/* Active Page Style */
+.manage-book-page-btn.active {
+    background-color: #1565c0;
+    color: white;
+    border-color: #1565c0;
+}
+
+/* Disabled Button Style */
+.manage-book-page-btn:disabled {
+    color: #ccc;
+    background-color: #f9f9f9;
+    cursor: not-allowed;
+}

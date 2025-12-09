@@ -12,8 +12,8 @@ export function SearchResult(props){
     let [totalNumber, setTotalNumber] = useState(0);
     useEffect(()=>{
         searchBook(query).then((response)=>{
-            setResult(response.data.books)
-            setTotalNumber(response.data.totalNumber)
+            setResult(response.data)
+            setTotalNumber(response.data.length)
         })
     },[query])
     

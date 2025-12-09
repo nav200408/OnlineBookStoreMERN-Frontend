@@ -26,11 +26,11 @@ export function SearchResultComponent(props) {
                     {books.map((book, index) => (
                         <Col key={index} className="book-col">
                             <Card className="h-100 book-card" onClick={()=>{
-            navigate(`/book-detail/${book.bookId}`)
+            navigate(`/book-detail/${book._id}`)
         }}>
                                 <Card.Body className="text-center">
                                     <img 
-                                        src={`http://localhost:8080/api/v1/image/show?imageName=${book.bookImage}`} 
+                                        src={`http://localhost:8080/stream/api/image?filename=${book?.bookImage}`} 
                                         alt={book.bookTitle}
                                         className="img-fluid book-image"
                                     />

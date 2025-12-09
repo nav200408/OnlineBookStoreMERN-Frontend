@@ -11,14 +11,14 @@ export const BestReview = () => {
   const navigate = useNavigate();
   useEffect(() => {
     bookByReview(1, 5).then((res) => {
-      setProducts(res.data.bookList);
+      setProducts(res.data.data.books);
     });
   }, []);
-
+  console.log(products);
   return (
     <div className="container py-5 best-review-section">
       <div className="text-center mb-4">
-        <h2 className="mb-2 section-title">Top Rated Books</h2>
+        <h2 className="mb-2 section-title">Top 4 Best Book Of The Day</h2>
         <p className="text-muted section-subtitle">Highly praised by our readers</p>
       </div>
       
@@ -29,34 +29,28 @@ export const BestReview = () => {
           
               <div className="card-img-top p-3 product-image-container d-flex align-items-center justify-content-center">
                 <img 
-                  src={`http://localhost:8080/api/v1/image/show?imageName=${product.bookImage}`} 
-                  alt={product.bookTitle}
+                  src={`http://localhost:8080/stream/api/image?filename=${product.book.bookImage}`} 
+                  alt={product.book.bookTitle}
                   className="img-fluid product-image"
                 />
               </div>
               <div className="card-body d-flex flex-column">
-                <h5 className="card-title product-title">{product.bookTitle}</h5>
+                <h5 className="card-title product-title">{product.book.bookTitle}</h5>
                 <div className="mt-auto">
                   <div className="price-container mb-2">
-                    <span className="current-price">${product.price?.toFixed(2)}</span>
+                    <span className="current-price">${product.book.price?.toFixed(2)}</span>
                     {product.originalPrice && (
-                      <span className="original-price text-decoration-line-through">${product.originalPrice?.toFixed(2)}</span>
+                      <span className="original-price text-decoration-line-through">${product.book.price?.toFixed(2)}</span>
                     )}
                   </div>
                   <button className="btn btn-primary w-100 btn-add-to-cart" onClick={()=>{
-                      navigate(`/book-detail/${product.bookId}`)
+                      navigate(`/book-detail/${product._id}`)
                   }}>View Details</button>
                 </div>
               </div>
             </div>
           </div>
         ))}
-      </div>
-      
-      <div className="text-center mt-4">
-        <button className="btn btn-outline-primary btn-view-all" onClick={()=>{
-          navigate("/list?page=best-review")
-        }}>View All Top Rated</button>
       </div>
     </div>
   );

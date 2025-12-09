@@ -23,19 +23,25 @@ import BookReview from "./components/review/BookReview";
 import UserProfile from "./components/profile/UserProfile";
 import Dashboard from "./components/admin/dashboard/DashBoard";
 import Home from "./components/book/Home";
+import { ExplorePage } from "./pages/ExplorePage";
+import { NewMyOrder } from "./components/order/NewMyOrder";
+import { NewManageBook } from "./components/book/NewManageBook";
+import { NewUpdateBook } from "./components/book/NewUpdateBook";
+import { NewUserProfile } from "./components/profile/NewUserProfile";
+import { NewManageOrder } from "./components/order/NewManageOrder";
 
 const Layout = () => {
   return (
     <>
       <Routes>
         <Route path="/" element={<App />}>
-        <Route
+          <Route
             index
             element={
               <>
-                <Header/>
-                <Home1 /> 
-                <Footer/>
+                <Header />
+                <Home1 />
+                <Footer />
               </>
             }
           />
@@ -44,7 +50,8 @@ const Layout = () => {
             element={
               <>
                 <Header />
-                <Home /> <Footer />
+                <ExplorePage />
+                <Footer />
               </>
             }
           />
@@ -55,7 +62,8 @@ const Layout = () => {
             element={
               <>
                 <Header />
-                <UserProfile />
+                <NewUserProfile/>
+                <Footer/>
               </>
             }
           />
@@ -137,7 +145,7 @@ const Layout = () => {
             element={
               <>
                 <Header />
-                <MyOrder />
+                <NewMyOrder />
                 <Footer />
               </>
             }
@@ -147,7 +155,7 @@ const Layout = () => {
             element={
               <>
                 <Header />
-                <ManageOrder />
+                <NewManageOrder/>
                 <Footer />
               </>
             }
@@ -157,7 +165,7 @@ const Layout = () => {
             element={
               <>
                 <Header />
-                <MyShop />
+                <NewManageBook />
                 <Footer />
               </>
             }
@@ -181,6 +189,17 @@ const Layout = () => {
               <>
                 <Header />
                 <PaymentFail />
+                <Footer></Footer>
+              </>
+            }
+          />
+
+          <Route
+            path="seller/update-book"
+            element={
+              <>
+                <Header />
+                <NewUpdateBook />
                 <Footer></Footer>
               </>
             }

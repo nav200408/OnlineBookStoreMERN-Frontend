@@ -21,9 +21,9 @@ const MyOrder = () => {
       try {
         const response = await showMyOrder(token);
         if (response.data.code === 0) {
-          setOrders(response.data.data);
+          setOrders(response.data);
         } else {
-          setError(response.data.message);
+          setError(response.data);
         }
       } catch (err) {
         setError("Failed to fetch orders");

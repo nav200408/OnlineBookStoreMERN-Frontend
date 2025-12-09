@@ -14,9 +14,9 @@ const Login = () => {
       const res = await postLogin(username, password);
       console.log("API Response:", res);
 
-      if (res.data.code === 0 && res.data.data.accessToken) {
-        localStorage.setItem("token", res.data.data.accessToken);
-        localStorage.setItem("userId", res.data.data.userId);
+      if (res.status == 200 && res.data.token) {
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("userId", res.data.user.id);
         navigate("/");
       } else {
         alert(res.data.message || "Invalid username or password");

@@ -4,7 +4,6 @@ import coverIcon from "../../assets/staticImage/cover-page.jpg";
 import {
   showMyCart,
   removeItemFormCart,
-  clearCartItem,
   editCartItem,
 } from "../../service/cartAPI";
 import { useNavigate } from "react-router-dom";
@@ -32,8 +31,8 @@ const MyCart = () => {
     const fetchCart = async () => {
       try {
         const response = await showMyCart(token);
-        if (response.data.code === 0) {
-          setCartItems(response.data.data);
+        if (response.status === 200) {
+          setCartItems(response.data);
         } else {
           setError(response.data.message);
         }
@@ -50,39 +49,26 @@ const MyCart = () => {
   const handleRemoveItem = async (cartItemId) => {
     try {
       const token = getToken();
+      console.log(token);
       const response = await removeItemFormCart(cartItemId, token);
-      if (response.data.code === 0) {
+      if (response.status == 200) {
         setCartItems(
-          cartItems.filter((item) => item.cartItemId !== cartItemId)
+          cartItems.filter((item) => item.cartId !== cartItemId)
         );
       } else {
         setError(response.data.message);
       }
     } catch (err) {
-      setError("Failed to remove item from cart");
-    }
-  };
-
-  const handleClearCart = async () => {
-    try {
-      const token = getToken();
-      const response = await clearCartItem(token);
-      if (response.data.code === 0) {
-        setCartItems([]);
-      } else {
-        setError(response.data.message);
-      }
-    } catch (err) {
-      setError("Failed to clear cart");
+      setError(err.message);
     }
   };
 
   const handleCheckoutItem = (item) => {
     setSelectedBook({
-      id: item.bookId,
-      title: item.bookTitle,
-      price: item.bookPrice,
-      quantity: item.quantity,
+      id: item.book._id,
+      title: item.book.bookTitle,
+      price: item.book.price,
+      quantity: editQuantity,
     });
     setShowPaymentPopup(true);
   };
@@ -90,7 +76,8 @@ const MyCart = () => {
     setShowPaymentPopup(false);
   };
   const startEditing = (item) => {
-    setEditingId(item.cartItemId);
+    setEditingId(item.cartId);
+    console.log(item);
     setEditQuantity(item.quantity);
   };
 
@@ -111,14 +98,14 @@ const MyCart = () => {
     try {
       const token = getToken();
       const response = await editCartItem(cartItemId, token, editQuantity);
-      if (response.data.code === 0) {
+      if (response.status=== 200) {
         setCartItems(
           cartItems.map((item) =>
-            item.cartItemId === cartItemId
+            item.cartId === cartItemId
               ? {
                   ...item,
                   quantity: editQuantity,
-                  totalPrice: item.bookPrice * editQuantity,
+                  totalPrice: item.book.price * editQuantity,
                 }
               : item
           )
@@ -197,12 +184,12 @@ const MyCart = () => {
                   </thead>
                   <tbody>
                     {cartItems.map((item) => (
-                      <tr key={item.cartItemId} data-label="Cart Item">
+                      <tr key={item.cartId} data-label="Cart Item">
                         <td className="book-image" data-label="Image">
                           <img
                             className="book-img img-fluid"
-                            src={`http://localhost:8080/api/v1/image/show?imageName=${item.bookImage}`}
-                            alt={item.bookTitle}
+                            src={`http://localhost:8080/stream/api/image?filename=${item.book.bookImage}`}
+                            alt={item.book.bookTitle}
                           />
                         </td>
                         <td
@@ -210,19 +197,19 @@ const MyCart = () => {
                           className="book-title3 align-middle1"
                           data-label="Title: "
                         >
-                          {item.bookTitle}
+                          {item.book.bookTitle}
                         </td>
                         <td
                           className="price-text align-middle"
                           data-label="Price: "
                         >
-                          ${item.bookPrice.toFixed(2)}
+                          ${item.book.price.toFixed(2)}
                         </td>
                         <td
                           className="quantity-text align-middle"
                           data-label="Quantity: "
                         >
-                          {editingId === item.cartItemId ? (
+                          {editingId === item.cartId ? (
                             <Form.Control
                               type="number"
                               min="1"
@@ -241,8 +228,8 @@ const MyCart = () => {
                         >
                           $
                           {(
-                            item.bookPrice *
-                            (editingId === item.cartItemId
+                            item.book.price *
+                            (editingId === item.cartId
                               ? editQuantity
                               : item.quantity)
                           ).toFixed(2)}
@@ -252,13 +239,13 @@ const MyCart = () => {
                           // data-label="Actions"
                           style={{ color: "#555555" }}
                         >
-                          {editingId === item.cartItemId ? (
+                          {editingId === item.cartId ? (
                             <>
                               <Button
                                 variant="success"
                                 size="sm"
                                 className="me-2"
-                                onClick={() => saveEdit(item.cartItemId)}
+                                onClick={() => saveEdit(item.cartId)}
                               >
                                 Save
                               </Button>
@@ -285,7 +272,7 @@ const MyCart = () => {
                                 size="sm"
                                 className="me-2"
                                 onClick={() =>
-                                  handleRemoveItem(item.cartItemId)
+                                  handleRemoveItem(item.cartId)
                                 }
                               >
                                 Remove
@@ -312,12 +299,6 @@ const MyCart = () => {
             <a href="/books" className="btn btn-outline-secondary">
               Continue Shopping
             </a>
-            <button
-              className="btn btn-danger clear-cart-btn"
-              onClick={handleClearCart}
-            >
-              Clear Cart
-            </button>
           </div>
         </>
       )}

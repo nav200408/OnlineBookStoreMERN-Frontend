@@ -10,14 +10,14 @@ const authHeader = () => ({
 });
 
 export const getBookReviews = async (bookId) => {
-  const res = await axios.get(`${API_BASE}/reviews/book/${bookId}`);
-  return res.data.data;
+  const res = await axios.get(`http://localhost:8080/review/api/get-review-by-bookId?bookId=${bookId}`);
+  return res.data;
 };
 
 export const postReview = async (bookId, rating, comment) => {
   const res = await axios.post(
-    `${API_BASE}/reviews`,
-    { bookId, rating, comment },
+    `http://localhost:8080/review/api/add-review`,
+    { bookId:bookId, score:rating, content:comment },
     authHeader()
   );
   return res.data;

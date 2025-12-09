@@ -1,0 +1,133 @@
+.manage-order-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-family: Arial, sans-serif;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 200px;
+}
+
+.manage-order-header-row {
+  background: #34495e;
+  color: #fff;
+}
+
+.manage-order-header {
+  padding: 12px 15px;
+  text-align: left;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.manage-order-row:nth-child(even) {
+  background: #f7f7f7;
+}
+
+.manage-order-row:hover {
+  background: #e8f4ff;
+}
+
+.manage-order-cell {
+  padding: 12px 15px;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+}
+
+/* Payment status colors */
+.manage-order-status-paid {
+  color: green;
+  font-weight: bold;
+}
+
+.manage-order-status-pending {
+  color: #d4a017;
+  font-weight: bold;
+}
+
+.manage-order-status-fail {
+  color: red;
+  font-weight: bold;
+}
+
+/* Action buttons */
+.manage-order-action {
+  display: flex;
+  gap: 6px;
+}
+
+.manage-order-btn {
+  padding: 6px 10px;
+  font-size: 13px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #fff;
+  transition: 0.2s;
+}
+
+/* Fail button */
+.manage-order-btn.fail {
+  background-color: #e74c3c;
+}
+.manage-order-btn.fail:hover {
+  background-color: #c0392b;
+}
+
+/* Pending button */
+.manage-order-btn.pending {
+  background-color: #f1c40f;
+  color: #333;
+}
+.manage-order-btn.pending:hover {
+  background-color: #d4ac0d;
+}
+
+/* Success button */
+.manage-order-btn.success {
+  background-color: #2ecc71;
+}
+.manage-order-btn.success:hover {
+  background-color: #27ae60;
+}
+
+/* ===== FILTER BUTTON WRAPPER ===== */
+.manage-order-filter {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+
+/* ===== FILTER BUTTON ===== */
+.manage-order-filter-btn {
+  padding: 8px 16px;
+  font-size: 14px;
+  background: #ecf0f1;
+  border: 2px solid #bdc3c7;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.25s ease;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+/* Hover effect */
+.manage-order-filter-btn:hover {
+  background: #dfe6e9;
+  border-color: #95a5a6;
+}
+
+/* Active button (selected tab) */
+.manage-order-filter-btn.active {
+  background: #2980b9;
+  border-color: #2471a3;
+  color: white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+.manage-order-page-title{
+  margin-bottom: 20px;
+}
+
+

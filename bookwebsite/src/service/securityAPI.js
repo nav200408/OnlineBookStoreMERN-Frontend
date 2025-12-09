@@ -1,13 +1,13 @@
 import axios from "axios";
 
 const postLogin = (username, password) => {
-  return axios.post("http://localhost:8080/api/v1/auth/log-in", {
+  return axios.post("http://localhost:8080/auth/api/login", {
     username,
     password,
   });
 };
 const postRegister = (data) => {
-  return axios.post("http://localhost:8080/api/v1/users", data);
+  return axios.post("http://localhost:8080/auth/api/register", data);
 };
 const postLogout = (token) => {
   return axios.post("http://localhost:8080/api/v1/auth/log-out", { token });

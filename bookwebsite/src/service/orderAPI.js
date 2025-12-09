@@ -1,7 +1,8 @@
 import axios from "axios";
+import { getToken } from "../utils/auth";
 
 export const showMyOrder = (token) => {
-  return axios.get(`http://localhost:8080/api/v1/order/my-orders`, {
+  return axios.get(`http://localhost:8080/order/api/my-order`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -55,3 +56,21 @@ export const rejectOrder = (token, orderId) => {
     }
   );
 };
+
+export const showAllOrders=(type)=>{
+  let token = getToken();
+  return axios.get(`http://localhost:8080/manage-order/api/get-all-orders?handle=${type}`,{
+    headers: {
+        Authorization: `Bearer ${token}`,
+      },
+  })
+}
+
+export const updateOrderStatus =(orderId,type)=>{
+  let token = getToken();
+  return axios.get(`http://localhost:8080/manage-order/api/update-status?id=${orderId}&status=${type}`,{
+    headers: {
+        Authorization: `Bearer ${token}`,
+      },
+  });
+}

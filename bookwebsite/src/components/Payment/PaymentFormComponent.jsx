@@ -3,6 +3,7 @@ import axios from 'axios';
 import { getUserIdFromToken, getToken } from '../../utils/auth';
 const PaymentForm = ({ onSuccess, onCancel, bookDetails }) => {
   const [paymentMethod, setPaymentMethod] = useState('');
+   console.log(bookDetails.id);
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!paymentMethod) {
@@ -11,12 +12,11 @@ const PaymentForm = ({ onSuccess, onCancel, bookDetails }) => {
     }
 
     try {
-      const response = await axios.post("http://localhost:8080/api/v1/payment/submitOrder",
+      const response = await axios.post("http://localhost:8080/payment/api/create_payment_url",
       {
         paymentMethod: paymentMethod,
-        orderInfo: `user:${getUserIdFromToken()},product:${bookDetails.id},quantity:${bookDetails.quantity}`,
+        orderInfo: `books:[${bookDetails.id}];quantity:[${bookDetails.quantity}];user:${getUserIdFromToken()}`,
         amount: parseInt(bookDetails.price * bookDetails.quantity)
-        // bookDetails.price * bookDetails.quantity
       },
       {
         headers: {
@@ -24,14 +24,14 @@ const PaymentForm = ({ onSuccess, onCancel, bookDetails }) => {
           "Authorization":`Bearer ${getToken()}`
         }
       }).catch((err)=>{
-        alert("you can't not buy your own product");
+        alert(err.message);
       });
 
       console.log(response.data);
-      if (response.data.message) {
-        window.location.href = response.data.message;
+      if (response.data) {
+        window.location.href = response.data;
       } else {
-        onSuccess(); // Close popup on success
+        onSuccess();
       }
     } catch (error) {
       console.error("Error submitting:", error);
@@ -44,20 +44,6 @@ const PaymentForm = ({ onSuccess, onCancel, bookDetails }) => {
       <p className="text-center mb-4">Total: ${(bookDetails.price * bookDetails.quantity).toFixed(2)}</p>
       
       <form onSubmit={handleSubmit}>
-        <div className="form-check mb-3">
-          <input
-            className="form-check-input"
-            type="radio"
-            name="payment"
-            id="cod"
-            value="COD"
-            checked={paymentMethod === "COD"}
-            onChange={(e) => setPaymentMethod(e.target.value)}
-          />
-          <label className="form-check-label" htmlFor="cod">
-            Cash on Delivery (COD)
-          </label>
-        </div>
         <div className="form-check mb-4">
           <input
             className="form-check-input"

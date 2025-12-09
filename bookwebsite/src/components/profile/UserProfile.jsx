@@ -7,8 +7,8 @@ import { getUserById, updateUser } from "../../service/userApi";
 
 const UserProfile = () => {
   const navigate = useNavigate();
-  const userId = parseInt(localStorage.getItem("userId"));
   const token = localStorage.getItem("token");
+  console.log(token)
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -30,13 +30,13 @@ const UserProfile = () => {
   const IMAGE_BASE_URL = "http://localhost:8080/api/v1/image/show?imageName=";
 
   useEffect(() => {
-    if (!token || !userId) {
+    if (!token) {
       navigate("/login");
       return;
     }
 
     setLoading(true);
-    getUserById(userId, token)
+    getUserById(token)
       .then((res) => {
         const data = res.data;
         const initialData = {
@@ -62,7 +62,7 @@ const UserProfile = () => {
         navigate("/login");
       })
       .finally(() => setLoading(false));
-  }, [token, userId, navigate]);
+  }, [token, navigate]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

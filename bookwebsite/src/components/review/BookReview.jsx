@@ -53,25 +53,30 @@ const BookReview = () => {
     const loadReviews = async () => {
       try {
         const data = await getBookReviews(bookId);
-        const reviews = Array.isArray(data.reviews)
-          ? data.reviews
-          : [data.reviews];
+        const reviews = Array.isArray(data)
+          ? data
+          : [data];
         setReviews(reviews);
-        setAverageRating(data.averageRating);
-        setRatingDistribution(calculateDistribution(reviews));
+        let averageRating =0;
+        for(let i =0; i<reviews.length;i++){
+             averageRating += reviews[i].ratings;
+        }
+        averageRating = averageRating/reviews.length;
+        setAverageRating(averageRating);
+        setRatingDistribution(calculateDistribution(data));
       } catch (err) {
         setError(err.response?.data?.message || "Failed to load reviews");
       }
     };
     loadReviews();
   }, [bookId]);
-
+  console.log(averageRating);
   const calculateDistribution = (reviews) => {
     const dist = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
-    const total = reviews.filter((r) => r.rating).length;
+    const total = reviews.filter((r) => r.ratings).length;
     reviews.forEach((r) => {
-      if (r.rating >= 1 && r.rating <= 5) {
-        dist[r.rating]++;
+      if (r.ratings >= 1 && r.ratings <= 5) {
+        dist[r.ratings]++;
       }
     });
     Object.keys(dist).forEach(
@@ -79,7 +84,6 @@ const BookReview = () => {
     );
     return dist;
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (rating === 0) return setFormError("Please select a rating");
@@ -87,16 +91,21 @@ const BookReview = () => {
     try {
       await postReview(bookId, rating, comment);
       const updatedData = await getBookReviews(bookId);
-      setReviews(updatedData.reviews);
-      setAverageRating(updatedData.averageRating);
-      setRatingDistribution(calculateDistribution(updatedData.reviews));
+      setReviews(updatedData);
+      let averageRating =0;
+        for(let i =0; i<reviews.length;i++){
+             averageRating += reviews[i].ratings;
+        }
+      averageRating = averageRating/reviews.length;
+      setAverageRating(averageRating);
+      setRatingDistribution(calculateDistribution(updatedData));
       setComment("");
       setRating(0);
       setFormError(null);
     } catch (err) {
       setFormError(err.response?.data?.message);
-      navigate("/login");
-      alert("Please login to review");
+      // navigate("/login");
+      alert(err.message);
     } finally {
       setIsSubmitting(false);
     }
@@ -261,11 +270,11 @@ const BookReview = () => {
             <p>No reviews yet. Be the first to review!</p>
           ) : (
             currentReviews.map((review) => (
-              <Card key={review.reviewId} className="mb-3 p-3">
+              <Card key={review._id} className="mb-3 p-3">
                 <div className="d-flex align-items-center mb-2">
                   <FaUserCircle
                     size={40}
-                    color={getUserColor(review.userId)}
+                    color={getUserColor(review._Id)}
                     className="me-3"
                   />
                   <div>
@@ -278,7 +287,7 @@ const BookReview = () => {
                     {[...Array(5)].map((_, i) => (
                       <FaStar
                         key={i}
-                        color={i < review.rating ? "#ffc107" : "#e4e5e9"}
+                        color={i < review.ratings ? "#ffc107" : "#e4e5e9"}
                         size={16}
                       />
                     ))}
@@ -409,7 +418,7 @@ const BookReview = () => {
             Close
           </Button>
           <Button
-            variant="primary"
+            variant="primary"f
             onClick={() =>
               handleUpdate(
                 editReview.reviewId,

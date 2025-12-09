@@ -10,10 +10,9 @@ export const NewestBook = () => {
   const navigate = useNavigate();
   useEffect(() => {
     newestBooks(1, 8).then((res) => {
-      setBooks(res.data.bookList);
+      setBooks(res.data.data.books);
     });
   }, []);
-
   return (
     <Container fluid className="py-5 newest-books-section">
       <div className="text-center mb-5">
@@ -29,7 +28,7 @@ export const NewestBook = () => {
               <div className="book-image-container">
                 <Card.Img 
                   variant="top" 
-                  src={`http://localhost:8080/api/v1/image/show?imageName=${book.bookImage}`} 
+                  src={`http://localhost:8080/stream/api/image?filename=${book.bookImage}`} 
                   alt={book.bookTitle}
                   className="book-image"
                 />
@@ -44,7 +43,7 @@ export const NewestBook = () => {
                     )}
                   </div>
                   <Button variant="primary" className="w-100 btn-details" onClick={()=>{
-                      navigate(`/book-detail/${book.bookId}`)
+                      navigate(`/book-detail/${book._id}`)
                   }}>View Details</Button>
                 </div>
               </Card.Body>
