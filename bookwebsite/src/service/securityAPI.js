@@ -1,4 +1,5 @@
 import axios from "axios";
+import axiosClient from "./SecurityAxios";
 
 const postLogin = (username, password) => {
   return axios.post("http://localhost:8080/auth/api/login", {
@@ -9,8 +10,8 @@ const postLogin = (username, password) => {
 const postRegister = (data) => {
   return axios.post("http://localhost:8080/auth/api/register", data);
 };
-const postLogout = (token) => {
-  return axios.post("http://localhost:8080/api/v1/auth/log-out", { token });
+const postLogout = () => {
+  return axiosClient.get("http://localhost:8080/auth/api/logout");
 };
 
 const refreshService = (refreshToken)=>{
