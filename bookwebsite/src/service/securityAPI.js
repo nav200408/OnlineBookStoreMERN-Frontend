@@ -12,4 +12,8 @@ const postRegister = (data) => {
 const postLogout = (token) => {
   return axios.post("http://localhost:8080/api/v1/auth/log-out", { token });
 };
-export { postLogin, postRegister, postLogout };
+
+const refreshService = (refreshToken)=>{
+  return axios.post("http://localhost:8080/auth/api/refresh-token",{refreshToken:refreshToken})
+}
+export { postLogin, postRegister,refreshService, postLogout };

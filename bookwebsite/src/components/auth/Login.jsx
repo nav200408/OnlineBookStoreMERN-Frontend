@@ -16,6 +16,7 @@ const Login = () => {
 
       if (res.status == 200 && res.data.token) {
         localStorage.setItem("token", res.data.token);
+        localStorage.setItem("refreshToken",res.data.refreshToken);
         localStorage.setItem("userId", res.data.user.id);
         navigate("/");
       } else {

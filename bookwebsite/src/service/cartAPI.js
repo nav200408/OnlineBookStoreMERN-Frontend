@@ -1,35 +1,21 @@
 import axios from "axios";
+import axiosClient from "./SecurityAxios";
 
 export const addToCart = (bookId, quantity, token) => {
-  return axios.post(
+  return axiosClient.post(
     "http://localhost:8080/cart/api/add-cart",
-    { bookId, quantity },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
+    { bookId, quantity }
   );
 };
 
 export const showMyCart = (token) => {
-  return axios.get("http://localhost:8080/cart/api/my-cart", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  return axiosClient.get("http://localhost:8080/cart/api/my-cart");
 };
 
 export const removeItemFormCart = (cartId, token) => {
   console.log(token)
-  return axios.post(
-    `http://localhost:8080/cart/api/delete-item?cartId=${cartId}`,
-    {},
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
+  return axiosClient.post(
+    `http://localhost:8080/cart/api/delete-item?cartId=${cartId}`
   );
 };
 
