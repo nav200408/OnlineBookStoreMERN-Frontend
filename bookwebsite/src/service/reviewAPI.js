@@ -1,4 +1,5 @@
 import axios from "axios";
+import axiosClient from "./SecurityAxios";
 
 const API_BASE = "http://localhost:8080/api/v1";
 
@@ -15,19 +16,17 @@ export const getBookReviews = async (bookId) => {
 };
 
 export const postReview = async (bookId, rating, comment) => {
-  const res = await axios.post(
+  const res = await axiosClient.post(
     `http://localhost:8080/review/api/add-review`,
-    { bookId:bookId, score:rating, content:comment },
-    authHeader()
+    { bookId:bookId, score:rating, content:comment }
   );
   return res.data;
 };
 
 export const deleteReview = async (reviewId) => {
   try {
-    const response = await axios.delete(
-      `${API_BASE}/reviews/book/${reviewId}`,
-      authHeader()
+    const response = await axiosClient.delete(
+      `${API_BASE}/reviews/book/${reviewId}`
     );
     console.log("Review deleted successfully:", response.data);
     return response.data;
@@ -39,7 +38,7 @@ export const deleteReview = async (reviewId) => {
 
 export const updateReview = async (reviewId, updatedReview) => {
   try {
-    const response = await axios.put(
+    const response = await axiosClient.put(
       `http://localhost:8080/api/v1/reviews/book/${reviewId}`,
       updatedReview
     );

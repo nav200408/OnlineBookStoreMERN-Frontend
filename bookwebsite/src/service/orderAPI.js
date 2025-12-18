@@ -1,76 +1,41 @@
 import axios from "axios";
 import { getToken } from "../utils/auth";
+import axiosClient from "./SecurityAxios";
 
 export const showMyOrder = (token) => {
-  return axios.get(`http://localhost:8080/order/api/my-order`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  return axiosClient.get(`http://localhost:8080/order/api/my-order`);
 };
 
 export const addToOrder = (token) => {
-  return axios.post(`http://localhost:8080/api/v1/order`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  return axiosClient.post(`http://localhost:8080/api/v1/order`);
 };
 
 export const cancelOrder = (token, orderId) => {
-  return axios.delete(`http://localhost:8080/api/v1/order/cancel/${orderId}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  return axiosClient.delete(`http://localhost:8080/api/v1/order/cancel/${orderId}`);
 };
 
 export const showPendingOrder = (token) => {
-  return axios.get(`http://localhost:8080/api/v1/manage-order/seller/pending`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  return axiosClient.get(`http://localhost:8080/api/v1/manage-order/seller/pending`);
 };
 
 export const acceptOrder = (token, orderId) => {
-  return axios.put(
-    `http://localhost:8080/api/v1/manage-order/${orderId}/approve`,
-    null,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
+  return axiosClient.put(
+    `http://localhost:8080/api/v1/manage-order/${orderId}/approve`
   );
 };
 
 export const rejectOrder = (token, orderId) => {
-  return axios.put(
-    `http://localhost:8080/api/v1/manage-order/${orderId}/reject`,
-    null,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
+  return axiosClient.put(
+    `http://localhost:8080/api/v1/manage-order/${orderId}/reject`
   );
 };
 
 export const showAllOrders=(type)=>{
   let token = getToken();
-  return axios.get(`http://localhost:8080/manage-order/api/get-all-orders?handle=${type}`,{
-    headers: {
-        Authorization: `Bearer ${token}`,
-      },
-  })
+  return axiosClient.get(`http://localhost:8080/manage-order/api/get-all-orders?handle=${type}`)
 }
 
 export const updateOrderStatus =(orderId,type)=>{
   let token = getToken();
-  return axios.get(`http://localhost:8080/manage-order/api/update-status?id=${orderId}&status=${type}`,{
-    headers: {
-        Authorization: `Bearer ${token}`,
-      },
-  });
+  return axiosClient.get(`http://localhost:8080/manage-order/api/update-status?id=${orderId}&status=${type}`);
 }

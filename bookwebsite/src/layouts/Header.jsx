@@ -479,13 +479,6 @@ function Header() {
             </a>
             <a
               className="dropdown-item d-flex align-items-center"
-              onClick={() => navigate("/seller/my-request")}
-            >
-              <FaHeart className="me-2" />
-              My Request Book
-            </a>
-            <a
-              className="dropdown-item d-flex align-items-center"
               onClick={() => navigate("/seller/my-shop")}
             >
               <FaStore className="me-2" />

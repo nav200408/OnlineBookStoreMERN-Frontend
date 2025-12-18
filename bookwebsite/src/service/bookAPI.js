@@ -1,5 +1,6 @@
 import axios from "axios";
 import { getToken } from "../utils/auth";
+import axiosClient from "./SecurityAxios";
 
 export const getBooks = () => {
   return axios.get("http://localhost:8080/api/v1/book");
@@ -10,9 +11,8 @@ export const getBookDetails = (bookId) => {
 };
 
 export const requestToAddNewBook = (formData, token) => {
-  return axios.post("http://localhost:8080/manage-book/api/add-book", formData, {
+  return axiosClient.post("http://localhost:8080/manage-book/api/add-book", formData, {
     headers: {
-      Authorization: `Bearer ${token}`,
       "Content-Type": "multipart/form-data",
     },
   });
@@ -36,23 +36,13 @@ export const cancelRequestAddNewBook = (token, bookId) => {
 };
 
 export const showMyShop = (token) => {
-  return axios.get("http://localhost:8080/api/v1/manage-book/my-shop", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  return axiosClient.get("http://localhost:8080/api/v1/manage-book/my-shop");
 };
 
 export const editMyBookShop = (token, bookId, formData) => {
-  return axios.put(
+  return axiosClient.put(
     `http://localhost:8080/api/v1/manage-book/${bookId}`,
-    formData,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "multipart/form-data",
-      },
-    }
+    formData
   );
 };
 
@@ -71,13 +61,8 @@ export const changeBookStatus = (token, bookId, isActive) => {
 export const deleteBook = (bookId) => {
   let token = getToken();
   console.log(token);
-  return axios.post(
-    `http://localhost:8080/manage-book/api/delete-book?bookId=${bookId}`,null,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
+  return axiosClient.post(
+    `http://localhost:8080/manage-book/api/delete-book?bookId=${bookId}`
   );
 };
 
@@ -185,20 +170,11 @@ export const updateBookStatus = async (bookId, isActive) => {
 
 export const getBookAdmin = async() =>{
   const token = getToken();
-  return await axios.get("http://localhost:8080/manage-book/api/get-all-book",{
-    headers:{
-      Authorization: `Bearer ${token}`
-    }
-  })
+  return await axiosClient.get("http://localhost:8080/manage-book/api/get-all-book")
 }
 
 export const updateBookAdmin = async(dataForm)=>{
   const token = getToken();
-  return await axios.post('http://localhost:8080/manage-book/api/update-book',
-  dataForm,{
-    headers:{
-      Authorization:`Bearer ${token}`,
-      "Content-Type": "multipart/form-data"
-    }
-  })
+  return await axiosClient.post('http://localhost:8080/manage-book/api/update-book',
+  dataForm)
 }

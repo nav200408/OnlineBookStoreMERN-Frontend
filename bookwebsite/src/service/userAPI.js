@@ -1,5 +1,6 @@
 import axios from "axios";
 import { getToken } from "../utils/auth";
+import axiosClient from "./SecurityAxios";
 
 const API_URL = "http://localhost:8080/api/v1/users";
 
@@ -18,11 +19,7 @@ const getAllUsers = async (token) => {
 };
 const getUserById = async (token) => {
   try {
-    const response = await axios.get(`http://localhost:8080/user/api/get-user-by-id`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axiosClient.get(`http://localhost:8080/user/api/get-user-by-id`);
     return response.data;
   } catch (error) {
     throw new Error(error.response?.data?.message || "Failed to fetch user");
@@ -63,11 +60,7 @@ const toggleUserStatus = async (userId, active, token) => {
 const updateUser = async (formData) => {
   try {
     let token = getToken();
-    const response = await axios.post(`http://localhost:8080/user/api/update-user`, formData, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      },
-    });
+    const response = await axiosClient.post(`http://localhost:8080/user/api/update-user`, formData);
     return response;
   } catch (error) {
     const errorMessage =
